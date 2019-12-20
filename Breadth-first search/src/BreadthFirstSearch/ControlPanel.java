@@ -26,7 +26,7 @@ import java.awt.FlowLayout;
 public class ControlPanel  {
 	public JPanel createControlPanel() {
 		String resultWay;
-		
+		int level = 1;
 		JPanel controlPanel = new JPanel();
 		controlPanel.setLayout(null);
 		
@@ -79,7 +79,7 @@ public class ControlPanel  {
 		search.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
             	BFS bfs = new BFS();
-                 bfs.search(sgv.g, Integer.parseInt(vertexName.getText()),Integer.parseInt(vertexName1.getText()));
+            	bfs.search(sgv.g, Integer.parseInt(vertexName.getText()),Integer.parseInt(vertexName1.getText()), level);
             }
         });
 		controlPanel.add(search);
