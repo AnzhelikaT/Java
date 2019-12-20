@@ -20,12 +20,14 @@ import edu.uci.ics.jung.visualization.renderers.Renderer.VertexLabel.Position;
 import javax.swing.*;
 
 import java.awt.Font;
+import java.awt.Frame;
 import java.awt.Stroke;
+import java.awt.Window;
 import java.awt.event.*;
 import java.awt.FlowLayout;
 public class ControlPanel  {
 	public JPanel createControlPanel() {
-		String resultWay;
+
 		int level = 1;
 		JPanel controlPanel = new JPanel();
 		controlPanel.setLayout(null);
@@ -79,16 +81,17 @@ public class ControlPanel  {
 		search.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
             	BFS bfs = new BFS();
-            	bfs.search(sgv.g, Integer.parseInt(vertexName.getText()),Integer.parseInt(vertexName1.getText()), level);
+            	String resultWay = bfs.search(sgv.g, Integer.parseInt(vertexName.getText()),Integer.parseInt(vertexName1.getText()), level);
+                JOptionPane.showMessageDialog(null, resultWay, "Кратчайший путь:", JOptionPane.PLAIN_MESSAGE);
+            
             }
         });
 		controlPanel.add(search);
 		
-		JLabel result = new JLabel("Кратчайший путь:");
+		/*JLabel result = new JLabel("Кратчайший путь:");
 		result.setLocation(10,340);
 		result.setSize(150,20);
-		controlPanel.add(result);
-		
+		controlPanel.add(result);*/
 		controlPanel.setOpaque(true);
 		return controlPanel;
 	}

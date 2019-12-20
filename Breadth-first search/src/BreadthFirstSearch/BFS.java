@@ -9,14 +9,13 @@ public class BFS {
 	String resultWay;// возвращаемое значение кратчайшего пути
 	String way = "";// переменная для хранения пути от начальной точки до конечной
 	int countVertexInWay = 0;// переменная для хранения длины от начальной точки до конечной
-	ArrayList<String> allResultWays = new ArrayList<>();// хранит все возможные пути от начальной точки до конечной
+	ArrayList<Integer> allResultWays = new ArrayList<>();// хранит все возможные пути от начальной точки до конечной
 	ArrayList<Integer> lengthAllResultWays = new ArrayList<>();// хранит длины всех возможных путей от начальной точки
 																// до конечной
 	ArrayList<Integer> vertexWay = new ArrayList<>();
 
 	int firstElementQueue;// текущий элемент вершины
 	int level = 1;// уровень на котором находится вершина
-	int numberVertex;// название вершины
 	// int vertexUsed = 0;//использовалась ли вершина при обходе
 	int maxSizeQueue;// максимальный размер очереди
 	int levelEndVertex;
@@ -25,7 +24,7 @@ public class BFS {
 	ArrayList<int[]> propertiesAllVertex = new ArrayList<>();
 	ArrayList<Integer> vertexUsed = new ArrayList<>();// хранит использованные вершины
 
-	public void search(Graph<Integer, String> g, int numberVertexStart, int numberVertexEnd, int actualLevel) {
+	public String search(Graph<Integer, String> g, int numberVertexStart, int numberVertexEnd, int actualLevel) {
 
 		/* while (!queue.isEmpty()) { */
 		/*
@@ -41,6 +40,7 @@ public class BFS {
 		 */
 		// System.out.println(propertiesAllVertex.get(0));
 		// цикл до тех пор пока очередь не будет пуста
+		int numberVertex;// название вершины
 		maxSizeQueue = g.getVertices().size();
 		Queue queue = new Queue(maxSizeQueue);// очередь для хранения вершин графа
 		queue.insert(numberVertexStart);
@@ -57,8 +57,8 @@ public class BFS {
 			vertexUsed.add(firstElementQueue);
 			Object[] mass = g.getNeighbors(firstElementQueue).toArray();
 			if (firstElementQueue == numberVertexEnd) {
-				numberVertex = numberVertexEnd;
-				levelEndVertex = actualLevel;
+				allResultWays.add(firstElementQueue);
+				recursion(g, firstElementQueue, actualLevel);
 				break;
 			}
 			for (Object object : mass) {
@@ -72,13 +72,40 @@ public class BFS {
 				}
 			}
 		}
+		for (int i = allResultWays.size()-1; i >=0; i--) {
+			way =  way + " " + allResultWays.get(i);
+		}
 		/*
 		 * for (int i = 0; i < propertiesAllVertex.size(); i++) { propertiesVertex =
 		 * propertiesAllVertex.get(i); if ((Integer) propertiesAllVertex.get(i)[0] ==
 		 * numberVertexEnd) { levelEndVertex = (Integer) propertiesAllVertex.get(i)[1];
 		 * numberVertex = numberVertexEnd; break; }
 		 */
+		return way;
 
+		/*
+		 * Object[] mass = g.getNeighbors(numberVertexStart).toArray(); for (Object
+		 * object : mass) {
+		 * 
+		 * 
+		 * }
+		 */
+
+		// System.out.println();
+		// return resultWay;
+		/*
+		 * if ((Integer) object != (Integer) lastElement) { if ((Integer) object ==
+		 * numberVertexEnd) { way = way + "-" + object.toString(); countVertexInWay =
+		 * countVertexInWay + 1; allResultWays.add(way);
+		 * lengthAllResultWays.add(countVertexInWay); System.out.println(way); way = "";
+		 * countVertexInWay = 0; } else if (g.getNeighbors((Integer) object).size() > 1)
+		 * { lastElement = (Integer) object; way = way + "-" + object.toString();
+		 * countVertexInWay = countVertexInWay + 1; search(g, (Integer) object,
+		 * numberVertexEnd); } }
+		 */
+	}
+
+	public void recursion(Graph<Integer, String> g, int numberVertex, int levelEndVertex) {
 		Object[] mass = g.getNeighbors(numberVertex).toArray();
 		for (Object object : mass) {
 			for (int i = 0; i < propertiesAllVertex.size(); i++) {
@@ -86,31 +113,13 @@ public class BFS {
 					if ((Integer) propertiesAllVertex.get(i)[1] == (levelEndVertex - 1)) {
 						numberVertex = (Integer) propertiesAllVertex.get(i)[0];
 						levelEndVertex = levelEndVertex - 1;
-						System.out.println(numberVertex);
+						allResultWays.add(numberVertex);
+						recursion(g, numberVertex, levelEndVertex);
 					}
 				}
 			}
-
-			/*
-			 * Object[] mass = g.getNeighbors(numberVertexStart).toArray(); for (Object
-			 * object : mass) {
-			 * 
-			 * 
-			 * }
-			 */
-
-			// System.out.println();
-			// return resultWay;
-			/*
-			 * if ((Integer) object != (Integer) lastElement) { if ((Integer) object ==
-			 * numberVertexEnd) { way = way + "-" + object.toString(); countVertexInWay =
-			 * countVertexInWay + 1; allResultWays.add(way);
-			 * lengthAllResultWays.add(countVertexInWay); System.out.println(way); way = "";
-			 * countVertexInWay = 0; } else if (g.getNeighbors((Integer) object).size() > 1)
-			 * { lastElement = (Integer) object; way = way + "-" + object.toString();
-			 * countVertexInWay = countVertexInWay + 1; search(g, (Integer) object,
-			 * numberVertexEnd); } }
-			 */
-		}
+			
+		
+	}
 	}
 }
